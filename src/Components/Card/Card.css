@@ -1,0 +1,6 @@
+.app-card-container {
+    background-color: rgb(255, 253, 253);
+    box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.26), 5px 5px 50px rgba(0, 0, 0, 0.26);
+    height: 80vh;
+    width: 50vw;
+}

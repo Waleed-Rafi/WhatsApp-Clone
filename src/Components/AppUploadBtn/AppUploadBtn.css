@@ -1,0 +1,10 @@
+.upload {
+    display: block;
+    padding: 8px 20px;
+    width: 5vw;
+    background-color: #00a58f;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+}

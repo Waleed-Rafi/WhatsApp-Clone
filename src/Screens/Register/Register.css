@@ -1,0 +1,9 @@
+.screen-register-container {
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to bottom, #00bfa5 23%, #d9d9d9 23%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

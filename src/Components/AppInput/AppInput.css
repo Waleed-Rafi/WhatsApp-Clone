@@ -1,0 +1,9 @@
+.app-input-field {
+    width: 15vw;
+    padding: 8px;
+    outline: none;
+    border: 1px solid #bbbbbbd5;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #747474;
+}

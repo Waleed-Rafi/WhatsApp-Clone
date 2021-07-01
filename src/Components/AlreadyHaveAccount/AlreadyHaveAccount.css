@@ -1,0 +1,10 @@
+.AHC-container {
+    display: flex;
+    justify-content: center;
+}
+
+.AHC-container a {
+    color: rgb(0, 150, 136);
+    font-size: 14px;
+    font-weight: 400;
+}
