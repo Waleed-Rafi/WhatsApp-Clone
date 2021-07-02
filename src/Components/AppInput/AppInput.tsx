@@ -6,7 +6,7 @@ interface Props {
   inputContainerStyles?: React.CSSProperties;
   inputStyles?: React.CSSProperties;
   name?: string;
-  placeholder: string;
+  placeholder?: string;
   value: string;
   isRequired?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,7 +17,7 @@ const AppInput: React.FC<Props> = ({
   inputContainerStyles = {},
   inputStyles = {},
   name = "",
-  placeholder,
+  placeholder = "placeholder",
   value,
   isRequired = false,
   onChange,

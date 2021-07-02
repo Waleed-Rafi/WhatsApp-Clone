@@ -1,15 +1,22 @@
 import React from "react";
 import Picker, { IEmojiData } from "emoji-picker-react";
 
-const EmojiPicker = ({ containerStyles = {}, pickerStyles = {} }) => {
-  const onEmojiClick = (
+interface Props {
+  containerStyles?: React.CSSProperties;
+  pickerStyles?: object;
+  onEmojiClick: (
     event: React.MouseEvent<Element, MouseEvent>,
     emojiObject: IEmojiData
-  ) => {
-    console.log(emojiObject);
-  };
+  ) => void;
+}
+
+const EmojiPicker: React.FC<Props> = ({
+  containerStyles = {},
+  pickerStyles = {},
+  onEmojiClick,
+}) => {
   return (
-    <div>
+    <div style={{ ...containerStyles }}>
       <Picker
         pickerStyle={{ ...pickerStyles }}
         onEmojiClick={(event, other) => onEmojiClick(event, other)}

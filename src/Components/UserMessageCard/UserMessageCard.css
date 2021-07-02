@@ -1,0 +1,50 @@
+.user-message-card-container {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-message-card-container-active {
+    background-color: #ebebeb;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-message-card-container:hover {
+    background-color: #f5f5f5ad;
+}
+
+.user-message-card-profile-pic {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-message-card-right-container {
+    margin-left: 15px;
+    position: relative;
+    width: 80%;
+}
+
+.user-message-card-name {
+    font-size: 17px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.877);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-message-card-message {
+    font-size: 14px;
+    margin-top: 1.5px;
+    color: rgba(0, 0, 0, 0.692);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
