@@ -49,9 +49,7 @@ const Register = () => {
             containerStyles={{ marginTop: "70px" }}
           />
         </div>
-        <RegisterProfile
-          containerStyles={{ marginTop: "8.4%", marginLeft: "17%" }}
-        />
+        <RegisterProfile />
       </Card>
     </div>
   );

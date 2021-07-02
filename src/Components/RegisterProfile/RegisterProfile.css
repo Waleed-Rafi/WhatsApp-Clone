@@ -1,6 +1,30 @@
+.register-profile-container {
+    margin-left: 17%;
+    margin-top: 13%;
+}
+
 .register-profile-image {
-    width: fit-content;
-    height: 30vh;
-    width: 13vw;
+    object-fit: cover;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.082), -1px -1px 50px rgba(0, 0, 0, 0.26);
+    border-radius: 20px;
+    overflow: hidden;
+    height: 14.7rem;
+    width: 12.7rem;
     align-self: right;
+}
+
+@media only screen and (max-width: 1500px) {
+    .register-profile-container {
+        width: 19vw;
+        margin-left: 4%;
+        margin-top: 20%;
+    }
+}
+
+@media only screen and (max-width: 1350px) {
+    .register-profile-container {
+        width: 19vw;
+        margin-left: -10%;
+        margin-top: 21%;
+    }
 }
