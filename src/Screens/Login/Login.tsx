@@ -4,22 +4,17 @@ import AppInput from "../../Components/AppInput/AppInput";
 import AppTitle from "../../Components/AppTitle/AppTitle";
 import AppUploadBtn from "../../Components/AppUploadBtn/AppUploadBtn";
 import AlreadyHaveAccount from "../../Components/AlreadyHaveAccount/AlreadyHaveAccount";
-import RegisterProfile from "../../Components/RegisterProfile/RegisterProfile";
-import "./Register.css";
 
-const Register = () => {
+const Login = () => {
   const [userFormData, setUserFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
-    profilePicture: null,
   });
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserFormData({
       ...userFormData,
-      [e.target.name]:
-        e.target.name === "profilePicture" ? e.target.files : e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -36,23 +31,17 @@ const Register = () => {
           boxSizing: "border-box",
           padding: "20px 80px",
           display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <div>
+        <div style={{ marginTop: "-8rem" }}>
           <AppTitle
-            title="SignUp to use WhatsApp Web"
+            title="Login to use WhatsApp Web"
             logo={false}
             containerStyles={{ marginBottom: "25px", width: "max-content" }}
           />
           <form onSubmit={(e) => formSubmitHandler(e)}>
-            <AppInput
-              name="fullName"
-              placeholder="Full Name"
-              value={userFormData.fullName}
-              inputContainerStyles={{ marginBottom: "25px" }}
-              isRequired={true}
-              onChange={inputChangeHandler}
-            />
             <AppInput
               name="email"
               inputType="email"
@@ -71,30 +60,17 @@ const Register = () => {
               isRequired={true}
               onChange={inputChangeHandler}
             />
-            <div style={{ display: "flex" }}>
-              <AppUploadBtn
-                name="profilePicture"
-                title="Photo"
-                isRequired={true}
-                onChange={inputChangeHandler}
-              />
-              <AppUploadBtn
-                containerStyles={{ marginLeft: "30px" }}
-                type="submit"
-                title="Register"
-              />
-            </div>
+            <AppUploadBtn type="submit" title="Login" />
           </form>
           <AlreadyHaveAccount
-            title="Already Have an Account?"
+            title="Don't have an account?"
             containerStyles={{ marginTop: "70px" }}
-            routeTo="/login"
+            routeTo="/"
           />
         </div>
-        <RegisterProfile imageSource={userFormData.profilePicture} />
       </Card>
     </div>
   );
 };
 
-export default Register;
+export default Login;
