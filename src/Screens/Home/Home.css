@@ -1,0 +1,41 @@
+.home-left-container {
+    position: relative;
+    width: 30%;
+    border-right: 0.5px solid rgba(128, 128, 128, 0.267);
+}
+
+.home-left-header {
+    height: 8%;
+    background-color: #f6f6f6;
+}
+
+.home-left-notification-alert {
+    height: 11%;
+    background-color: hsl(198deg 98% 81%);
+}
+
+.home-left-search-bar {
+    height: 6%;
+    background-color: #f6f6f6;
+}
+
+.home-right-container {
+    position: relative;
+    width: 70%;
+    height: 100%;
+    background: url("https://preview.redd.it/qwd83nc4xxf41.jpg?width=640&crop=smart&auto=webp&s=e82767fdf47158e80604f407ce4938e44afc6c25");
+    object-fit: cover;
+}
+
+.home-right-header {
+    height: 8%;
+    background-color: #ededed;
+}
+
+.home-right-message-section {
+    position: absolute;
+    height: 7%;
+    width: 100%;
+    background-color: #f0f0f0;
+    bottom: 0;
+}

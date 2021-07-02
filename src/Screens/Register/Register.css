@@ -1,4 +1,5 @@
-.screen-register-container {
+.screen-register-container,
+.background {
     height: 100vh;
     width: 100vw;
     background: linear-gradient(to bottom, #00bfa5 23%, #d9d9d9 23%);

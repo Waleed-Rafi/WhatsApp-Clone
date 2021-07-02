@@ -21,6 +21,7 @@ const Login = () => {
   const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     console.log(userFormData);
+    setUserFormData({ email: "", password: "" });
   };
 
   return (

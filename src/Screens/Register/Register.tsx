@@ -5,15 +5,24 @@ import AppTitle from "../../Components/AppTitle/AppTitle";
 import AppUploadBtn from "../../Components/AppUploadBtn/AppUploadBtn";
 import AlreadyHaveAccount from "../../Components/AlreadyHaveAccount/AlreadyHaveAccount";
 import RegisterProfile from "../../Components/RegisterProfile/RegisterProfile";
+import Firebase from "../../Firebase/firebase";
 import "./Register.css";
 
+interface UserForm {
+  fullName: string;
+  email: string;
+  password: string;
+  profilePicture: FileList | null;
+}
+
 const Register = () => {
-  const [userFormData, setUserFormData] = useState({
+  const [userFormData, setUserFormData] = useState<UserForm>({
     fullName: "",
     email: "",
     password: "",
     profilePicture: null,
   });
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserFormData({
@@ -26,10 +35,50 @@ const Register = () => {
   const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     console.log(userFormData);
+    setIsRegistering(true);
+    if (typeof userFormData.profilePicture?.length) {
+      let temp = userFormData.profilePicture![0];
+      let uploadTask = Firebase.storage()
+        .ref("/users/")
+        .child(temp.name + new Date())
+        .put(temp);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          console.log((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        },
+        (error) => {
+          console.log(error);
+          setIsRegistering(false);
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
+            console.log(downloadUrl);
+            Firebase.database()
+              .ref("/users")
+              .push({
+                ...userFormData,
+                profilePicture: downloadUrl,
+              })
+              .then((res) => {
+                console.log(res);
+                setUserFormData({
+                  fullName: "",
+                  email: "",
+                  password: "",
+                  profilePicture: null,
+                });
+                setIsRegistering(false);
+              });
+          });
+        }
+      );
+    }
   };
 
   return (
-    <div className="screen-register-container">
+    <div className="screen-register-container background">
       <AppTitle />
       <Card
         containerStyles={{
@@ -81,7 +130,7 @@ const Register = () => {
               <AppUploadBtn
                 containerStyles={{ marginLeft: "30px" }}
                 type="submit"
-                title="Register"
+                title={!isRegistering ? "Register" : "..."}
               />
             </div>
           </form>
