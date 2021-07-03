@@ -2,7 +2,7 @@ import React from "react";
 import "./RegisterProfile.css";
 
 interface Props {
-  imageSource?: FileList | null;
+  imageSource?: FileList | string | null;
   alternateSource?: string;
   containerStyles?: React.CSSProperties;
   imageStyles?: React.CSSProperties;
@@ -18,9 +18,11 @@ const RegisterProfile: React.FC<Props> = ({
     <div className="register-profile-container" style={{ ...containerStyles }}>
       <img
         src={
-          imageSource?.length
-            ? URL.createObjectURL(imageSource[0])
-            : alternateSource
+          typeof imageSource !== "string"
+            ? imageSource?.length
+              ? URL.createObjectURL(imageSource[0])
+              : alternateSource
+            : imageSource
         }
         alt="Profile"
         className="register-profile-image"

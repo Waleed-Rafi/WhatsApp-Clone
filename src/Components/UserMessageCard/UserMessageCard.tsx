@@ -1,4 +1,5 @@
 import React from "react";
+import RegisterProfile from "../RegisterProfile/RegisterProfile";
 import "./UserMessageCard.css";
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
   name: string;
   message: string;
   containerStyles?: React.CSSProperties;
+  imageStyles?: React.CSSProperties;
   active?: string;
 }
 
@@ -14,6 +16,7 @@ const UserMessageCard: React.FC<Props> = ({
   name,
   message,
   containerStyles = {},
+  imageStyles = {},
   active = "",
 }) => {
   return (
@@ -22,10 +25,15 @@ const UserMessageCard: React.FC<Props> = ({
       style={{ ...containerStyles }}
     >
       <div className="user-message-card-left-container">
-        <img
-          className="user-message-card-profile-pic"
-          src={profilePic}
-          alt=""
+        <RegisterProfile
+          imageSource={profilePic}
+          imageStyles={{
+            borderRadius: "50%",
+            height: "50px",
+            width: "50px",
+            boxShadow: "none",
+            ...imageStyles,
+          }}
         />
       </div>
       <div className="user-message-card-right-container">
