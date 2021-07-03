@@ -13,7 +13,8 @@
     align-self: right;
 }
 
-@media only screen and (max-width: 1500px) {
+
+/* @media only screen and (max-width: 1500px) {
     .register-profile-container {
         width: 19vw;
         margin-left: 4%;
@@ -27,4 +28,4 @@
         margin-left: -10%;
         margin-top: 21%;
     }
-}
+} */

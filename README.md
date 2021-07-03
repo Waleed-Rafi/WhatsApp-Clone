@@ -1,6 +1,6 @@
 # WhatsApp Clone
 
-![alt text](https://firebasestorage.googleapis.com/v0/b/whatsapp-clone-8f401.appspot.com/o/forreadmefile.jpg?alt=media&token=9a939b53-03ae-4259-b9e0-080ee89041fa)
+![alt text](https://firebasestorage.googleapis.com/v0/b/whatsapp-clone-8f401.appspot.com/o/readmeimage.jpg?alt=media&token=142ede0e-f6ae-4c64-9558-fc9a57f034c5)
 
 # Getting Started with Create React App
 

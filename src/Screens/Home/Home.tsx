@@ -7,6 +7,7 @@ import { IEmojiData } from "emoji-picker-react";
 import HomeNotificationAlert from "../../Components/HomeNotificationAlert/HomeNotificationAlert";
 import HomeSearchBar from "../../Components/HomeSearchBar/HomeSearchBar";
 import HomeMessageUser from "../../Components/HomeMessageUsers/HomeMessageUser";
+import HomeMessagesHeader from "../../Components/HomeMessagesHeader/HomeMessagesHeader";
 import HomeMessageDetails from "../../Components/HomeMessageDetails/HomeMessageDetails";
 import "./Home.css";
 
@@ -42,13 +43,15 @@ export default function Home() {
         }}
       >
         <div className="home-left-container">
-          <div className="home-left-header"></div>
+          <HomeMessagesHeader
+            containerStyles={{ backgroundColor: "#f6f6f6" }}
+          />
           <HomeNotificationAlert />
           <HomeSearchBar />
           <HomeMessageUser />
         </div>
         <div className="home-right-container">
-          <div className="home-right-header"></div>
+          <HomeMessagesHeader username="Ahmad Anis" />
           <HomeMessageDetails />
           {openEmojiPicker && (
             <EmojiPicker

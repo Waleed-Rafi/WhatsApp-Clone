@@ -17,11 +17,13 @@ const HomeNotificationAlert: React.FC<Props> = ({
     >
       <NotificationAlert
         name="Get notified of new messages"
-        profilePic="https://cdn.iconscout.com/icon/free/png-256/notifications-off-1781421-1518496.png"
+        profilePic="https://cdn4.iconfinder.com/data/icons/symbol-blue-set-1/100/Untitled-2-28-512.png"
         message="Turn on desktop notifications"
         imageStyles={{
+          height: "30px",
+          width: "30px",
           backgroundColor: "white",
-          padding: "1px",
+          padding: "10px",
           opacity: "0.7",
           ...imageStyles,
         }}
