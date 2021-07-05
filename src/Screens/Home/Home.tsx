@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../../Components/Card/Card";
 import EmojiPicker from "../../Components/EmojiPicker/EmojiPicker";
 import AppInput from "../../Components/AppInput/AppInput";
@@ -10,10 +10,37 @@ import HomeMessageUser from "../../Components/HomeMessageUsers/HomeMessageUser";
 import HomeMessagesHeader from "../../Components/HomeMessagesHeader/HomeMessagesHeader";
 import HomeMessageDetails from "../../Components/HomeMessageDetails/HomeMessageDetails";
 import "./Home.css";
+import Firebase from "../../Firebase/firebase";
 
 export default function Home() {
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [yourMessage, setYourMessage] = useState("");
+  const [allUsers, setAllUsers] = useState<any>([]);
+  const [currentAuthUser, setCurrentAuthUser] = useState<any>([]);
+  const [myMessages, setMyMessages] = useState<any>([]);
+  const [currentlyOpenedMessage, setCurrentlyOpenedMessage] = useState<any>([]);
+  const [authToken, setAuthToken] = useState("");
+
+  useEffect(() => {
+    let authToken = localStorage.getItem("WhatsApp-Auth-Key");
+    if (!authToken) {
+      window.location.href = "/login";
+    } else {
+      setAuthToken(authToken);
+      Firebase.database()
+        .ref("/users/" + authToken)
+        .on("value", (res) => {
+          let temp = { ...res.val() };
+          delete temp[authToken!];
+          setAllUsers(Object.entries(temp));
+          setCurrentAuthUser(res.val());
+          let temp2: any = Object.values(res.val().messages);
+          setMyMessages(temp2);
+          console.log(temp2[0]);
+          setCurrentlyOpenedMessage(temp2.length ? temp2[0] : []);
+        });
+    }
+  }, []);
 
   const toggleEmojiPicker = () => {
     setOpenEmojiPicker(!openEmojiPicker);
@@ -27,9 +54,39 @@ export default function Home() {
     setYourMessage(yourMessage + emojiObject.emoji);
   };
 
-  const messageSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const messageSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(yourMessage);
+    await Firebase.database()
+      .ref(
+        "/users/" +
+          authToken +
+          "/messages/" +
+          currentlyOpenedMessage.id +
+          "/chat/" +
+          currentlyOpenedMessage.chat.length
+      )
+      .set({
+        from: authToken,
+        message: yourMessage,
+        to: currentlyOpenedMessage.id,
+      })
+      .then(async (res) => {
+        await Firebase.database()
+          .ref(
+            "/users/" +
+              currentlyOpenedMessage.id +
+              "/messages/" +
+              authToken +
+              "/chat/" +
+              currentlyOpenedMessage.chat.length
+          )
+          .set({
+            from: authToken,
+            message: yourMessage,
+            to: currentlyOpenedMessage.id,
+          });
+        setYourMessage("");
+      });
   };
 
   return (
@@ -45,14 +102,18 @@ export default function Home() {
         <div className="home-left-container">
           <HomeMessagesHeader
             containerStyles={{ backgroundColor: "#f6f6f6" }}
+            profilePic={currentAuthUser?.profilePicture}
           />
           <HomeNotificationAlert />
           <HomeSearchBar />
-          <HomeMessageUser />
+          <HomeMessageUser allUsers={myMessages} />
         </div>
         <div className="home-right-container">
-          <HomeMessagesHeader username="Ahmad Anis" />
-          <HomeMessageDetails />
+          <HomeMessagesHeader
+            username={currentlyOpenedMessage.name}
+            profilePic={currentlyOpenedMessage.profilePicture}
+          />
+          <HomeMessageDetails chat={currentlyOpenedMessage.chat} />
           {openEmojiPicker && (
             <EmojiPicker
               pickerStyles={{

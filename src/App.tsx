@@ -2,7 +2,7 @@ import React from "react";
 import Register from "./Screens/Register/Register";
 import Login from "./Screens/Login/Login";
 import Home from "./Screens/Home/Home";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 
 function App() {

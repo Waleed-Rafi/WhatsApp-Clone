@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../../Components/Card/Card";
 import AppInput from "../../Components/AppInput/AppInput";
 import AppTitle from "../../Components/AppTitle/AppTitle";
@@ -24,6 +24,13 @@ const Register = () => {
   });
   const [isRegistering, setIsRegistering] = useState(false);
 
+  useEffect(() => {
+    let authToken = localStorage.getItem("WhatsApp-Auth-Key");
+    if (authToken) {
+      window.location.href = "/";
+    }
+  }, []);
+
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserFormData({
       ...userFormData,
@@ -32,11 +39,32 @@ const Register = () => {
     });
   };
 
+  const setToDatabase = (profilePic: string): void => {
+    Firebase.database()
+      .ref("/users")
+      .push({
+        ...userFormData,
+        profilePicture: profilePic,
+        messages: ["none"],
+      })
+      .then((res) => {
+        setUserFormData({
+          fullName: "",
+          email: "",
+          password: "",
+          profilePicture: null,
+        });
+        setIsRegistering(false);
+        let result = res.key!.toString();
+        localStorage.setItem("WhatsApp-Auth-Key", result);
+        window.location.href = "/";
+      });
+  };
+
   const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log(userFormData);
     setIsRegistering(true);
-    if (typeof userFormData.profilePicture?.length) {
+    if (userFormData.profilePicture?.length) {
       let temp = userFormData.profilePicture![0];
       let uploadTask = Firebase.storage()
         .ref("/users/")
@@ -49,30 +77,24 @@ const Register = () => {
           console.log((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
         },
         (error) => {
-          console.log(error);
+          alert("Failed to register new account");
           setIsRegistering(false);
         },
         () => {
-          uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
-            console.log(downloadUrl);
-            Firebase.database()
-              .ref("/users")
-              .push({
-                ...userFormData,
-                profilePicture: downloadUrl,
-              })
-              .then((res) => {
-                console.log(res);
-                setUserFormData({
-                  fullName: "",
-                  email: "",
-                  password: "",
-                  profilePicture: null,
-                });
-                setIsRegistering(false);
-              });
-          });
+          uploadTask.snapshot.ref
+            .getDownloadURL()
+            .then((downloadUrl) => {
+              setToDatabase(downloadUrl);
+            })
+            .catch((err) => {
+              alert("Failed to register new account");
+              setIsRegistering(false);
+            });
         }
+      );
+    } else {
+      setToDatabase(
+        "https://kalaivf.com/wp-content/uploads/2021/01/profile-placeholder.jpg"
       );
     }
   };
@@ -124,7 +146,6 @@ const Register = () => {
               <AppUploadBtn
                 name="profilePicture"
                 title="Photo"
-                isRequired={true}
                 onChange={inputChangeHandler}
               />
               <AppUploadBtn

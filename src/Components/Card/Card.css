@@ -4,3 +4,15 @@
     height: 80vh;
     width: 50vw;
 }
+
+@media screen and (max-width: 1250px) {
+    .app-card-container {
+        width: 90vw !important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .app-card-container {
+        width: 98vw !important;
+    }
+}

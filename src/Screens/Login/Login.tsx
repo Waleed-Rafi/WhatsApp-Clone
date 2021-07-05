@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../../Components/Card/Card";
 import AppInput from "../../Components/AppInput/AppInput";
 import AppTitle from "../../Components/AppTitle/AppTitle";
 import AppUploadBtn from "../../Components/AppUploadBtn/AppUploadBtn";
 import AlreadyHaveAccount from "../../Components/AlreadyHaveAccount/AlreadyHaveAccount";
+import Firebase from "../../Firebase/firebase";
 
 const Login = () => {
   const [userFormData, setUserFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    let authToken = localStorage.getItem("WhatsApp-Auth-Key");
+    if (authToken) {
+      window.location.href = "/";
+    }
+  }, []);
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserFormData({
@@ -20,8 +28,26 @@ const Login = () => {
 
   const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log(userFormData);
-    setUserFormData({ email: "", password: "" });
+
+    Firebase.database()
+      .ref("/users")
+      .once("value", (res) => {
+        let userIds = Object.keys(res.val());
+        let usersInfo = Object.values(res.val());
+        let index = usersInfo.findIndex((data: any) => {
+          return (
+            data.email === userFormData.email &&
+            data.password === userFormData.password
+          );
+        });
+        if (index === -1) {
+          alert("Invalid Credentials");
+        } else {
+          localStorage.setItem("WhatsApp-Auth-Key", userIds[index]);
+          window.location.href = "/";
+        }
+        setUserFormData({ email: "", password: "" });
+      });
   };
 
   return (
@@ -66,7 +92,7 @@ const Login = () => {
           <AlreadyHaveAccount
             title="Don't have an account?"
             containerStyles={{ marginTop: "70px" }}
-            routeTo="/"
+            routeTo="/register"
           />
         </div>
       </Card>
