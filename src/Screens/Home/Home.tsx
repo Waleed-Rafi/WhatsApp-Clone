@@ -12,6 +12,8 @@ import HomeMessageDetails from "../../Components/HomeMessageDetails/HomeMessageD
 import "./Home.css";
 import Firebase from "../../Firebase/firebase";
 
+let openIndex = 0;
+
 export default function Home() {
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [yourMessage, setYourMessage] = useState("");
@@ -34,7 +36,7 @@ export default function Home() {
           if (res.val().messages) {
             let temp2: any = Object.values(res.val().messages);
             setMyMessages(temp2);
-            setCurrentlyOpenedMessage(temp2.length ? temp2[0] : []);
+            setCurrentlyOpenedMessage(temp2.length ? temp2[openIndex] : []);
           }
         });
       Firebase.database()
@@ -55,12 +57,12 @@ export default function Home() {
     event: React.MouseEvent<Element, MouseEvent>,
     emojiObject: IEmojiData
   ) => {
-    console.log(emojiObject);
     setYourMessage(yourMessage + emojiObject.emoji);
   };
 
   const setWhichMessageToOpen = (index: number) => {
     setCurrentlyOpenedMessage(myMessages[index]);
+    openIndex = index;
   };
 
   const messageSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
