@@ -19,9 +19,8 @@ const HomeMessageUser: React.FC<Props> = ({
     <div className="home-left-all-messages" style={{ ...containerStyles }}>
       {allUsers.map((data: any, index: any) => {
         return (
-          <div onClick={() => setMsgIndex(index)}>
+          <div onClick={() => setMsgIndex(index)} key={data.id}>
             <UserMessageCard
-              key={data.id}
               name={data.name}
               profilePic={data.profilePicture}
               message={data.chat ? data.chat[0].message : ""}
