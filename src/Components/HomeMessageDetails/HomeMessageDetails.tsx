@@ -1,6 +1,6 @@
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
+import useScrollBottom from "../../hooks/useScrollToBottom";
 
 interface Props {
   containerStyles?: React.CSSProperties;
@@ -15,10 +15,12 @@ const HomeMessageDetails: React.FC<Props> = ({
   messageRightStyles = {},
   chat = [],
 }) => {
+  useScrollBottom("home-message-detail-container", chat);
   const [myId, setMyId] = useState(localStorage.getItem("WhatsApp-Auth-Key"));
 
   return (
     <div
+      id="home-message-detail-container"
       className="home-message-detail-container"
       style={{ ...containerStyles }}
     >

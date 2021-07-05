@@ -18,6 +18,12 @@
     background-color: #f6f6f6;
 }
 
+.home-left-all-messages {
+    position: relative;
+    overflow-y: scroll;
+    height: 77%;
+}
+
 .home-right-container {
     position: relative;
     width: 70%;
@@ -41,6 +47,9 @@
 }
 
 .home-message-detail-container {
+    position: relative;
+    overflow-y: scroll;
+    height: 83%;
     padding: 15px 30px;
     display: flex;
     flex-direction: column;

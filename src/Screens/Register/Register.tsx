@@ -45,7 +45,6 @@ const Register = () => {
       .push({
         ...userFormData,
         profilePicture: profilePic,
-        messages: ["none"],
       })
       .then((res) => {
         setUserFormData({

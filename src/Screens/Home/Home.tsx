@@ -30,14 +30,19 @@ export default function Home() {
       Firebase.database()
         .ref("/users/" + authToken)
         .on("value", (res) => {
-          let temp = { ...res.val() };
+          setCurrentAuthUser(res.val());
+          if (res.val().messages) {
+            let temp2: any = Object.values(res.val().messages);
+            setMyMessages(temp2);
+            setCurrentlyOpenedMessage(temp2.length ? temp2[0] : []);
+          }
+        });
+      Firebase.database()
+        .ref("/users")
+        .on("value", (res) => {
+          let temp = res.val();
           delete temp[authToken!];
           setAllUsers(Object.entries(temp));
-          setCurrentAuthUser(res.val());
-          let temp2: any = Object.values(res.val().messages);
-          setMyMessages(temp2);
-          console.log(temp2[0]);
-          setCurrentlyOpenedMessage(temp2.length ? temp2[0] : []);
         });
     }
   }, []);
@@ -54,8 +59,13 @@ export default function Home() {
     setYourMessage(yourMessage + emojiObject.emoji);
   };
 
+  const setWhichMessageToOpen = (index: number) => {
+    setCurrentlyOpenedMessage(myMessages[index]);
+  };
+
   const messageSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setYourMessage("");
     await Firebase.database()
       .ref(
         "/users/" +
@@ -85,7 +95,6 @@ export default function Home() {
             message: yourMessage,
             to: currentlyOpenedMessage.id,
           });
-        setYourMessage("");
       });
   };
 
@@ -105,8 +114,14 @@ export default function Home() {
             profilePic={currentAuthUser?.profilePicture}
           />
           <HomeNotificationAlert />
-          <HomeSearchBar />
-          <HomeMessageUser allUsers={myMessages} />
+          <HomeSearchBar
+            allUsers={allUsers}
+            currentAuthUser={currentAuthUser}
+          />
+          <HomeMessageUser
+            allUsers={myMessages}
+            setWhichMessageToOpen={setWhichMessageToOpen}
+          />
         </div>
         <div className="home-right-container">
           <HomeMessagesHeader
